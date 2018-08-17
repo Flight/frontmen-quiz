@@ -1,0 +1,10 @@
+<form (submit)="proceedToTest()">
+    <mat-form-field>
+        <input matInput [formControl]="userName" placeholder="User" autofocus>
+        <mat-error *ngIf="userName.invalid">Name is required.</mat-error>
+    </mat-form-field>
+
+    <p class="start-button-container">
+        <button mat-raised-button color="primary">Start test</button>
+    </p>
+</form>
