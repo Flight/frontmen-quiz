@@ -49,8 +49,6 @@ export class QuestionService {
     getQuestion(): Observable<IQuestion> {
         return this.getQuestions().pipe(
             map((questions: Array<IQuestion>): IQuestion => {
-                console.log(questions);
-
                 return questions.shift();
             })
         );

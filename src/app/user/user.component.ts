@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserDataService } from '../user-data.service';
 
@@ -8,14 +8,17 @@ import { UserDataService } from '../user-data.service';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-    userName = new FormControl('', [Validators.required]);
+    @Output() hasUser = new EventEmitter<boolean>();
 
-    constructor(private userDataService: UserDataService) {
-    }
+    private userName: FormControl = new FormControl('', [Validators.required]);
+
+    constructor(private userDataService: UserDataService) { }
+
     onNameSubmit() {
-        if (this.userName === undefined) {
+        if (!this.userName.valid) {
             return;
         }
         this.userDataService.setName(this.userName.value);
+        this.hasUser.emit();
     }
 }

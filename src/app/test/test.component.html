@@ -1,3 +1,16 @@
-<p>
-    test works!
-</p>
+<app-user (hasUser)="onUserSubmit($event)" *ngIf="!showQuestion"></app-user>
+
+<div class="questions" *ngIf="showQuestion && !testFinished">
+    <div [innerHTML]="question.question"></div>
+
+    <div *ngIf="question.type === 'boolean'; else multiple">
+        <button (click)="checkAnswer('True')">True</button>
+        <button (click)="checkAnswer('False')">False</button>
+    </div>
+
+    <ng-template #multiple>
+        <button *ngFor="let answer of makeRandomArray(mixedAnswers)" [innerHTML]="answer" (click)="checkAnswer(answer)"></button>
+    </ng-template>
+</div>
+
+<div *ngIf="testFinished" [innerHTML]="score"></div>
