@@ -13,4 +13,11 @@
     <div class="keybord-info">You can also use your keyboard numeric keys to select the needed answer.</div>
 </div>
 
-<div class="score" *ngIf="testFinished">Your score is <strong [innerText]="score"></strong></div>
+<div class="score" *ngIf="testFinished">
+    <p>Your score is <strong [innerText]="score"></strong></p>
+    <mat-progress-spinner class="score-spinner"
+        *ngIf="testFinished"
+        mode="determinate"
+        [value]="finalSpinnerProgress">
+    </mat-progress-spinner>
+</div>

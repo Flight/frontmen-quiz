@@ -4,6 +4,7 @@ import { ScoreboardService } from '../scoreboard.service';
 import { UserDataService } from '../user-data.service';
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { Timeouts } from 'selenium-webdriver';
 
 @Component({
     selector: 'app-test',
@@ -19,6 +20,7 @@ export class TestComponent implements OnInit {
     public testFinished = false;
     public score = 0;
     private questionCounter = 0;
+    public finalSpinnerProgress = 0;
 
     constructor(
         private questionService: QuestionService,
@@ -44,14 +46,27 @@ export class TestComponent implements OnInit {
     }
 
     finishTest() {
+        const finalTimeout = 3000;
         const userData = this.userDataService.get();
+        let showScoreTimeout;
+        const showScoreTimer = () => {
+            console.log(this.finalSpinnerProgress);
+            if (this.finalSpinnerProgress === 100) {
+                clearTimeout(showScoreTimeout);
+                this.router.navigate(['scoreboard', userData.id]);
+                return;
+            }
+            this.finalSpinnerProgress++;
+
+            showScoreTimeout = setTimeout(showScoreTimer, finalTimeout / 100);
+        };
 
         this.testFinished = true;
 
         this.userDataService.setScore(this.score);
         this.scoreboardService.addScore(userData);
 
-        this.router.navigate(['scoreboard', userData.id]);
+        showScoreTimer();
     }
 
     makeRandomArray(array: Array<any>): Array<any> {
@@ -89,7 +104,6 @@ export class TestComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.startTest = true; // REMOVE ME!
         this.getNextQuestion();
     }
 }
