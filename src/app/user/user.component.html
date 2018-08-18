@@ -1,7 +1,7 @@
 <form (submit)="onNameSubmit()">
     <mat-form-field>
-        <input matInput [formControl]="userName" placeholder="User" autofocus>
-        <mat-error *ngIf="userName.invalid">Name is required.</mat-error>
+        <input matInput [formControl]="userNameInput" placeholder="User" autofocus>
+        <mat-error *ngIf="userNameInput.invalid">Name is required.</mat-error>
     </mat-form-field>
 
     <p class="start-button-container">

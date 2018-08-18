@@ -8,17 +8,17 @@ import { UserDataService } from '../user-data.service';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-    @Output() hasUser = new EventEmitter<boolean>();
+    userNameInput: FormControl = new FormControl('', [Validators.required]);
 
-    private userName: FormControl = new FormControl('', [Validators.required]);
+    @Output() hasUser = new EventEmitter<boolean>();
 
     constructor(private userDataService: UserDataService) { }
 
     onNameSubmit() {
-        if (!this.userName.valid) {
+        if (!this.userNameInput.valid) {
             return;
         }
-        this.userDataService.setName(this.userName.value);
-        this.hasUser.emit();
+        this.userDataService.setName(this.userNameInput.value);
+        this.hasUser.emit(true);
     }
 }

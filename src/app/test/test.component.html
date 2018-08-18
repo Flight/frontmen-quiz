@@ -1,16 +1,15 @@
-<app-user (hasUser)="onUserSubmit($event)" *ngIf="!showQuestion"></app-user>
+<app-user (hasUser)="onUserSubmit($event)" *ngIf="!startTest"></app-user>
 
-<div class="questions" *ngIf="showQuestion && !testFinished">
-    <div [innerHTML]="question.question"></div>
+<div class="questions" *ngIf="startTest && !testFinished">
+    <mat-spinner *ngIf="!question"></mat-spinner>
 
-    <div *ngIf="question.type === 'boolean'; else multiple">
-        <button (click)="checkAnswer('True')">True</button>
-        <button (click)="checkAnswer('False')">False</button>
+    <div *ngIf="question">
+        <div [innerHTML]="question.question"></div>
+
+        <div class="button-row">
+            <button type="button" mat-stroked-button *ngFor="let answer of mixedAnswers" (click)="checkAnswer(answer)"><span [innerHTML]="answer"></span></button>
+        </div>
     </div>
-
-    <ng-template #multiple>
-        <button *ngFor="let answer of makeRandomArray(mixedAnswers)" [innerHTML]="answer" (click)="checkAnswer(answer)"></button>
-    </ng-template>
 </div>
 
-<div *ngIf="testFinished" [innerHTML]="score"></div>
+<div class="score" *ngIf="testFinished">Your score is <span [innerText]="score"></span></div>
