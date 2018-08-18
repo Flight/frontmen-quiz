@@ -13,7 +13,7 @@
 .scoreboard-table {
     width: 80%;
     margin: 20px auto;
-    
+
     th, td {
         border: 0;
         overflow: hidden;
@@ -42,5 +42,9 @@
 }
 
 .no-scores {
+    text-align: center;
+}
+
+.try-again {
     text-align: center;
 }

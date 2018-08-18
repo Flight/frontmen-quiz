@@ -12,7 +12,15 @@ export class UserComponent {
 
     @Output() hasUser = new EventEmitter<boolean>();
 
-    constructor(private userDataService: UserDataService) { }
+    constructor(private userDataService: UserDataService) {
+        const name = this.userDataService.getName();
+
+        if (!name || !name.length) {
+            return;
+        }
+
+        this.userNameInput.setValue(name);
+    }
 
     onNameSubmit() {
         if (!this.userNameInput.valid) {

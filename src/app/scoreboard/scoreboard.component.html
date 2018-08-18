@@ -22,3 +22,7 @@
 <div *ngIf="!scores.length" class="no-scores">
     <h1>No scores yet.</h1>
 </div>
+
+<p class="try-again">
+    <a [routerLink]="['/']" mat-raised-button class="mat-accent">Try again</a>
+</p>
