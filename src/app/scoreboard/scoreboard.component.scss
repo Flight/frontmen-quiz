@@ -1,0 +1,46 @@
+:host {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.mat-row {
+    flex: 1 0 100%;
+}
+
+.scoreboard-table {
+    width: 80%;
+    margin: 20px auto;
+    
+    th, td {
+        border: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        flex: 0 1 60%;
+        &:nth-child(2) {
+            flex: 0 1 40%;
+            text-align: center;
+        }
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: green;
+    }
+}
+
+.mat-header-cell {
+    font-size: 20px;
+}
+
+.mat-cell {
+    font-size: 16px;
+}
+
+.no-scores {
+    text-align: center;
+}

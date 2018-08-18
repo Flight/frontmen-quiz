@@ -3,6 +3,7 @@ import { QuestionService, IQuestion } from '../question.service';
 import { ScoreboardService } from '../scoreboard.service';
 import { UserDataService } from '../user-data.service';
 import { HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-test',
@@ -22,7 +23,8 @@ export class TestComponent implements OnInit {
     constructor(
         private questionService: QuestionService,
         private userDataService: UserDataService,
-        private scoreboardService: ScoreboardService
+        private scoreboardService: ScoreboardService,
+        private router: Router
     ) { }
 
     @HostListener('window:keydown', ['$event'])
@@ -42,10 +44,14 @@ export class TestComponent implements OnInit {
     }
 
     finishTest() {
+        const userData = this.userDataService.get();
+
         this.testFinished = true;
 
         this.userDataService.setScore(this.score);
-        this.scoreboardService.addScore(this.userDataService.get());
+        this.scoreboardService.addScore(userData);
+
+        this.router.navigate(['scoreboard', userData.id]);
     }
 
     makeRandomArray(array: Array<any>): Array<any> {

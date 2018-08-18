@@ -10,7 +10,22 @@
 
 .button-row {
     margin: 10px 0 0;
+
     button {
         margin: 5px 10px;
+    }
+}
+.keybord-info {
+    margin: 10px 0 0;
+    font-size: 11px;
+}
+
+.score {
+    line-height: 1.5;
+
+    strong {
+        display: block;
+        font-size: 30px;
+        color: green;
     }
 }

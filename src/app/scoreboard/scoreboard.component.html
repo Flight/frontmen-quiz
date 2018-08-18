@@ -1,3 +1,24 @@
-<p>
-    scoreboard works!
-</p>
+<table mat-table [dataSource]="dataSource" *ngIf="scores.length" class="mat-elevation-z8 scoreboard-table">
+    <!-- <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="name" >
+        <th mat-header-cell *matHeaderCellDef><span>Name</span></th>
+        <td mat-cell *matCellDef="let user"><span [ngClass]="{'highlight': user.id === userId}">{{ user.name }}</span></td>
+    </ng-container>
+
+    <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef><span>Score</span></th>
+        <td mat-cell *matCellDef="let user"><span [ngClass]="{'highlight': user.id === userId}">{{ user.score }}</span></td>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</table>
+
+<div *ngIf="!scores.length" class="no-scores">
+    <h1>No scores yet.</h1>
+</div>

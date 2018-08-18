@@ -10,6 +10,7 @@
             <button type="button" mat-stroked-button *ngFor="let answer of mixedAnswers" (click)="checkAnswer(answer)"><span [innerHTML]="answer"></span></button>
         </div>
     </div>
+    <div class="keybord-info">You can also use your keyboard numeric keys to select the needed answer.</div>
 </div>
 
-<div class="score" *ngIf="testFinished">Your score is <span [innerText]="score"></span></div>
+<div class="score" *ngIf="testFinished">Your score is <strong [innerText]="score"></strong></div>

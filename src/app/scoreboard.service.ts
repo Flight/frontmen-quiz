@@ -10,15 +10,14 @@ export class ScoreboardService {
     constructor() { }
 
     getScores(): Array<IUser> {
-        return <Array<IUser>>JSON.parse(localStorage.getItem('scores')) || [];
+        const scores = <Array<IUser>>JSON.parse(localStorage.getItem('scores')) || [];
+        return scores;
     }
 
     addScore(userData: IUser): void {
         this.scores = this.getScores();
-
-        console.log(userData);
         this.scores.push(userData);
-        this.scores.sort((a, b) => a.score - b.score);
+        this.scores.sort((a, b) => b.score - a.score);
         localStorage.setItem('scores', JSON.stringify(this.scores));
     }
 }
