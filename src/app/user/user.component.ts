@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { UserDataService } from '../user-data.service';
 
 @Component({
     selector: 'app-user',
@@ -9,9 +10,12 @@ import { FormControl, Validators } from '@angular/forms';
 export class UserComponent {
     userName = new FormControl('', [Validators.required]);
 
-    constructor() {
+    constructor(private userDataService: UserDataService) {
     }
-    proceedToTest() {
-        console.log('test');
+    onNameSubmit() {
+        if (this.userName === undefined) {
+            return;
+        }
+        this.userDataService.setName(this.userName.value);
     }
 }

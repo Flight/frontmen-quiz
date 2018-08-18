@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserDataService } from './user-data.service';
 import { UserComponent } from './user/user.component';
 import { TestComponent } from './test/test.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
@@ -27,7 +28,7 @@ import { ScoreboardComponent } from './scoreboard/scoreboard.component';
         ReactiveFormsModule,
         HttpClientModule
     ],
-    providers: [],
+    providers: [UserDataService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

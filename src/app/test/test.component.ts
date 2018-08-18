@@ -7,12 +7,13 @@ import { QuestionService, IQuestion } from '../question.service';
     styleUrls: ['./test.component.scss']
 })
 export class TestComponent implements OnInit {
+    private question: IQuestion;
 
     constructor(private questionService: QuestionService) { }
 
     ngOnInit() {
         this.questionService.getQuestion().subscribe((question: IQuestion): void => {
-            console.log(question);
+            this.question = question;
         });
     }
 
