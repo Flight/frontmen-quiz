@@ -51,7 +51,7 @@ export class TestComponent implements OnInit {
         let showScoreTimeout;
         const showScoreTimer = () => {
             console.log(this.finalSpinnerProgress);
-            if (this.finalSpinnerProgress === 100) {
+            if (this.finalSpinnerProgress === 110) {
                 clearTimeout(showScoreTimeout);
                 this.router.navigate(['scoreboard', userData.id]);
                 return;

@@ -1,9 +1,4 @@
 <table mat-table [dataSource]="dataSource" *ngIf="scores.length" class="mat-elevation-z8 scoreboard-table">
-    <!-- <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container> -->
-
     <ng-container matColumnDef="name" >
         <th mat-header-cell *matHeaderCellDef><span>Name</span></th>
         <td mat-cell *matCellDef="let user"><span [ngClass]="{'highlight': user.id === userId}">{{ user.name }}</span></td>
@@ -24,5 +19,8 @@
 </div>
 
 <p class="try-again">
-    <a [routerLink]="['/']" mat-raised-button class="mat-accent">Try again</a>
+    <a [routerLink]="['/']" mat-raised-button class="mat-accent">
+        <span *ngIf="scores.length">Try again</span>
+        <span *ngIf="!scores.length">Be the first</span>
+    </a>
 </p>
