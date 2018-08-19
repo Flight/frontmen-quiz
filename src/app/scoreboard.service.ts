@@ -16,6 +16,10 @@ export class ScoreboardService {
 
     addScore(userData: IUser): void {
         this.scores = this.getScores();
+        if (this.scores.find(score => score.id === userData.id)) {
+            return;
+        }
+
         this.scores.push(userData);
         this.scores.sort((a, b) => b.score - a.score);
         localStorage.setItem('scores', JSON.stringify(this.scores));
