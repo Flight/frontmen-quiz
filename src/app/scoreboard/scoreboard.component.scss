@@ -33,6 +33,10 @@
     }
 }
 
+.mat-row:nth-child(odd) {
+    background-color: #eeeeee;
+}
+
 .mat-header-cell {
     font-size: 20px;
 }
