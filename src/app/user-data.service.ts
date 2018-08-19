@@ -13,6 +13,10 @@ export class UserDataService {
     private user: IUser;
 
     constructor() {
+        this.createEmptyUser();
+    }
+
+    createEmptyUser() {
         this.user = {
             name: '',
             score: 0,
@@ -38,5 +42,9 @@ export class UserDataService {
 
     setScore(score: number): void {
         this.user.score = score;
+    }
+
+    reset(): void {
+        this.createEmptyUser();
     }
 }

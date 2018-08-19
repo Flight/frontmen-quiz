@@ -2,6 +2,10 @@
 
 [Link to test on github pages](https://flight.github.io/frontmen-quiz/).
 
+You can call some special forces during the test if you enjoyed DOOM like me =).
+
+To reset all, just type `reset all` on the scores table page.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.4.
 
 It uses [Angular Material](https://material.angular.io/) version 6.4.5.

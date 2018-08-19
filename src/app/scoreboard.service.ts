@@ -20,4 +20,8 @@ export class ScoreboardService {
         this.scores.sort((a, b) => b.score - a.score);
         localStorage.setItem('scores', JSON.stringify(this.scores));
     }
+
+    reset(): void {
+        localStorage.removeItem('scores');
+    }
 }

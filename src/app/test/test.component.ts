@@ -4,6 +4,7 @@ import { ScoreboardService } from '../scoreboard.service';
 import { UserDataService } from '../user-data.service';
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { KeyloggerService } from '../keylogger.service';
 
 @Component({
     selector: 'app-test',
@@ -28,11 +29,16 @@ export class TestComponent implements OnInit {
     public showMainSpinner = false;
     public mainSpinnerProgress = 0;
 
+    public showCorrectAnswer = false;
+    public iddqd = false;
+    private timerDisabled = false;
+
     constructor(
         private questionService: QuestionService,
         private userDataService: UserDataService,
         private scoreboardService: ScoreboardService,
-        private router: Router
+        private router: Router,
+        private keyloggerService: KeyloggerService
     ) { }
 
     @HostListener('window:keydown', ['$event'])
@@ -41,8 +47,22 @@ export class TestComponent implements OnInit {
             const keyNumber = parseInt(event.key, 10);
             const number = isNaN(keyNumber) ? undefined : keyNumber;
 
+            this.keyloggerService.addKey(event.key);
+
+            if (this.keyloggerService.hasWord('iddqd')) {
+                this.disableTimer();
+                this.iddqd = true;
+                this.keyloggerService.reset();
+            }
+
+            if (this.keyloggerService.hasWord('idkfa')) {
+                this.showCorrectAnswer = true;
+                this.keyloggerService.reset();
+                this.iddqd = true;
+            }
+
             if (number && number < this.mixedAnswers.length + 1) {
-                this.checkAnswer(this.mixedAnswers[number - 1]);
+                this.submitAnswer(this.mixedAnswers[number - 1]);
             }
         }
     }
@@ -52,7 +72,14 @@ export class TestComponent implements OnInit {
         this.refreshTimer();
     }
 
-    finishTest() {
+    private disableTimer(): void {
+        this.timerDisabled = true;
+        this.mainSpinnerProgress = 0;
+        clearTimeout(this.questionTimeout);
+        this.showQuestionTimer = true;
+    }
+
+    private finishTest() {
         const finalTimeout = 3000;
         const userData = this.userDataService.get();
         let showScoreTimeout;
@@ -135,20 +162,32 @@ export class TestComponent implements OnInit {
                 this.mixedAnswers = this.makeRandomArray([this.question.correct_answer, ...this.question.incorrect_answers]);
             }
 
-            if (this.testStarted) {
+            if (this.testStarted && !this.timerDisabled) {
                 this.refreshTimer();
             }
         });
     }
 
-    checkAnswer(answer: string): void {
-        if (this.question.correct_answer === answer) {
+    checkAnswer(answer: string): boolean {
+        return this.question.correct_answer === answer;
+    }
+
+    submitAnswer(answer: string): void {
+        if (this.checkAnswer(answer)) {
             this.score++;
         }
+
         this.getNextQuestion();
     }
 
     ngOnInit() {
+        this.testFinished = false;
+        this.showCorrectAnswer = false;
+        this.timerDisabled = false;
+        this.iddqd = false;
+
+        this.keyloggerService.reset();
+
         this.getNextQuestion();
     }
 }

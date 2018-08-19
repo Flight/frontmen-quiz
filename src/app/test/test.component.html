@@ -7,6 +7,8 @@
     diameter="30">
 </mat-progress-spinner>
 
+<div class="iddqd" *ngIf="iddqd"></div>
+
 <div class="questions" *ngIf="testStarted && !testFinished">
     <mat-spinner *ngIf="!question"></mat-spinner>
     
@@ -16,7 +18,12 @@
         <div [innerHTML]="question.question"></div>
 
         <div class="button-row">
-            <button type="button" mat-stroked-button *ngFor="let answer of mixedAnswers" (click)="checkAnswer(answer)"><span [innerHTML]="answer"></span></button>
+            <button type="button"
+                mat-stroked-button
+                *ngFor="let answer of mixedAnswers"
+                (click)="submitAnswer(answer)"
+                [color]="showCorrectAnswer && checkAnswer(answer) ? 'accent' : ''"
+            ><span [innerHTML]="answer"></span></button>
         </div>
     </div>
     <div class="keybord-info">You can also use your keyboard numeric keys to select the needed answer.</div>
