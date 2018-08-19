@@ -5,6 +5,7 @@ import { UserDataService } from '../user-data.service';
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { KeyloggerService } from '../keylogger.service';
+import { ArrayRandomizerService } from '../array-randomizer.service';
 
 @Component({
     selector: 'app-test',
@@ -38,7 +39,8 @@ export class TestComponent implements OnInit {
         private userDataService: UserDataService,
         private scoreboardService: ScoreboardService,
         private router: Router,
-        private keyloggerService: KeyloggerService
+        private keyloggerService: KeyloggerService,
+        private arrayRandomizerService: ArrayRandomizerService
     ) { }
 
     @HostListener('window:keydown', ['$event'])
@@ -105,12 +107,6 @@ export class TestComponent implements OnInit {
         showScoreTimer();
     }
 
-    private makeRandomArray(array: Array<any>): Array<any> {
-        return array.sort(function() {
-            return 0.5 - Math.random();
-        });
-    }
-
     private onTimeEnd(): void {
         this.showQuestionTimer = false;
         this.showTimeEndMessage = true;
@@ -143,6 +139,22 @@ export class TestComponent implements OnInit {
         mainTimer();
     }
 
+    private onQuestionLoaded(question: IQuestion): void {
+        this.question = question;
+
+        if (this.question.type === 'boolean') {
+            this.mixedAnswers = ['True', 'False'];
+        } else {
+            this.mixedAnswers = this.arrayRandomizerService.randomize(
+                [this.question.correct_answer, ...this.question.incorrect_answers]
+            );
+        }
+
+        if (this.testStarted && !this.timerDisabled) {
+            this.refreshTimer();
+        }
+    }
+
     getNextQuestion(): void {
         this.mixedAnswers = [];
 
@@ -153,19 +165,7 @@ export class TestComponent implements OnInit {
 
         this.questionCounter++;
 
-        this.questionService.getQuestion().subscribe((question: IQuestion): void => {
-            this.question = question;
-
-            if (this.question.type === 'boolean') {
-                this.mixedAnswers = ['True', 'False'];
-            } else {
-                this.mixedAnswers = this.makeRandomArray([this.question.correct_answer, ...this.question.incorrect_answers]);
-            }
-
-            if (this.testStarted && !this.timerDisabled) {
-                this.refreshTimer();
-            }
-        });
+        this.questionService.getQuestion().subscribe(this.onQuestionLoaded.bind(this));
     }
 
     checkAnswer(answer: string): boolean {

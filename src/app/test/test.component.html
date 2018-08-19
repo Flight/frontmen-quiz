@@ -10,7 +10,7 @@
 <div class="iddqd" *ngIf="iddqd"></div>
 
 <div class="questions" *ngIf="testStarted && !testFinished">
-    <mat-spinner *ngIf="!question"></mat-spinner>
+    <mat-spinner *ngIf="!question" class="preloader-spinner"></mat-spinner>
     
     <div class="time-end" *ngIf="showTimeEndMessage">Response time expired, moving to the next question.</div>
 
