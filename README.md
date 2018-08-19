@@ -1,5 +1,7 @@
 # Frontmen Quiz
 
+[Link to test on github pages](https://flight.github.io/frontmen-quiz/).
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.4.
 
 It uses [Angular Material](https://material.angular.io/) version 6.4.5.
@@ -15,6 +17,13 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+For poduction build:
+`ng build --prod --base-href /frontmen-quiz/`
+
+## To push changes to github pages
+
+`git subtree push --prefix dist/frontmen-quiz origin gh-pages`
 
 ## Running unit tests
 
