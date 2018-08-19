@@ -1,9 +1,18 @@
-<app-user (hasUser)="onUserSubmit($event)" *ngIf="!startTest"></app-user>
+<app-user (hasUser)="onUserSubmit($event)" *ngIf="!testStarted"></app-user>
 
-<div class="questions" *ngIf="startTest && !testFinished">
+<mat-progress-spinner class="main-spinner"
+    *ngIf="showQuestionTimer"
+    mode="determinate"
+    [value]="mainSpinnerProgress"
+    diameter="30">
+</mat-progress-spinner>
+
+<div class="questions" *ngIf="testStarted && !testFinished">
     <mat-spinner *ngIf="!question"></mat-spinner>
+    
+    <div class="time-end" *ngIf="showTimeEndMessage">Response time expired, moving to the next question.</div>
 
-    <div *ngIf="question">
+    <div *ngIf="question && !showTimeEndMessage">
         <div [innerHTML]="question.question"></div>
 
         <div class="button-row">
