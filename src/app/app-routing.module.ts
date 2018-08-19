@@ -15,6 +15,10 @@ const routes: Routes = [
     {
         path: 'scoreboard/:id',
         component: ScoreboardComponent
+    },
+    {
+        path: '**',
+        redirectTo: ''
     }
 ];
 
