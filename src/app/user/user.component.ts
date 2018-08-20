@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { UserDataService } from '../user-data.service';
+import { UserDataService } from '../services/user-data.service';
 
 @Component({
     selector: 'app-user',
@@ -26,6 +26,7 @@ export class UserComponent {
         if (!this.userNameInput.valid) {
             return;
         }
+
         this.userDataService.setName(this.userNameInput.value);
         this.hasUser.emit(true);
     }

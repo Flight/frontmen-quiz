@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDataService, IUser } from '../user-data.service';
-import { ScoreboardService } from '../scoreboard.service';
+import { UserDataService, IUser } from '../services/user-data.service';
+import { ScoreboardService } from '../services/scoreboard.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { HostListener } from '@angular/core';
-import { KeyloggerService } from '../keylogger.service';
+import { KeyloggerService } from '../services/keylogger.service';
 
 @Component({
     selector: 'app-scoreboard',

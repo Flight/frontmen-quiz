@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { QuestionService, IQuestion } from '../question.service';
-import { ScoreboardService } from '../scoreboard.service';
-import { UserDataService } from '../user-data.service';
+import { QuestionService, IQuestion } from '../services/question.service';
+import { ScoreboardService } from '../services/scoreboard.service';
+import { UserDataService } from '../services/user-data.service';
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { KeyloggerService } from '../keylogger.service';
-import { ArrayRandomizerService } from '../array-randomizer.service';
+import { KeyloggerService } from '../services/keylogger.service';
+import { ArrayRandomizerService } from '../services/array-randomizer.service';
 
 @Component({
     selector: 'app-test',
@@ -46,15 +46,15 @@ export class TestComponent implements OnInit {
     @HostListener('window:keydown', ['$event'])
     onKeyUp(event: KeyboardEvent) {
         if (this.testStarted === true && this.testFinished !== true) {
-            const keyNumber = parseInt(event.key, 10);
+            const keyNumber = Number(event.key);
             const number = isNaN(keyNumber) ? undefined : keyNumber;
 
             this.keyloggerService.addKey(event.key);
 
             if (this.keyloggerService.hasWord('iddqd')) {
                 this.disableTimer();
-                this.iddqd = true;
                 this.keyloggerService.reset();
+                this.iddqd = true;
             }
 
             if (this.keyloggerService.hasWord('idkfa')) {
@@ -77,8 +77,8 @@ export class TestComponent implements OnInit {
     private disableTimer(): void {
         this.timerDisabled = true;
         this.mainSpinnerProgress = 0;
-        clearTimeout(this.questionTimeout);
         this.showQuestionTimer = true;
+        clearTimeout(this.questionTimeout);
     }
 
     private finishTest() {
@@ -96,14 +96,12 @@ export class TestComponent implements OnInit {
             showScoreTimeout = setTimeout(showScoreTimer, finalTimeout / 100);
         };
 
-        clearTimeout(showScoreTimeout);
-
         this.testFinished = true;
         this.showQuestionTimer = false;
 
+        clearTimeout(showScoreTimeout);
         this.userDataService.setScore(this.score);
         this.scoreboardService.addScore(userData);
-
         showScoreTimer();
     }
 
@@ -126,16 +124,13 @@ export class TestComponent implements OnInit {
                 return;
             }
             this.mainSpinnerProgress++;
-
             this.questionTimeout = setTimeout(mainTimer, questionTimeoutTime / 100);
         };
 
         this.mainSpinnerProgress = 0;
-
-        clearTimeout(this.questionTimeout);
-
         this.showQuestionTimer = true;
 
+        clearTimeout(this.questionTimeout);
         mainTimer();
     }
 
@@ -164,7 +159,6 @@ export class TestComponent implements OnInit {
         }
 
         this.questionCounter++;
-
         this.questionService.getQuestion().subscribe(this.onQuestionLoaded.bind(this));
     }
 
@@ -187,7 +181,6 @@ export class TestComponent implements OnInit {
         this.iddqd = false;
 
         this.keyloggerService.reset();
-
         this.getNextQuestion();
     }
 }

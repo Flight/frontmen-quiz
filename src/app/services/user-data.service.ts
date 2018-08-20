@@ -32,6 +32,7 @@ export class UserDataService {
         if (!this.user || !this.user.name) {
             return;
         }
+
         return this.user.name;
     }
 
