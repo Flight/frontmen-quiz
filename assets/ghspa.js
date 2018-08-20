@@ -17,38 +17,9 @@
  *  @param {Boolean} projectPages, true by default, https://help.github.com/articles/user-organization-and-project-pages
  *
  */
-
-;(function(l, projectPages) {
-
-  var repo = projectPages ? '/' + l.pathname.split('/')[1] : ''
-
-   /* redirect all 404 trafic to index.html */
-   function redirect() {
-     l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + repo + '/?' +
-              (l.pathname ? 'p=' + l.pathname.replace(/&/g, '~and~').replace(repo, '') : '') +
-              (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-              (l.hash))
-   }
-
-   /* resolve 404 redirects into internal routes */
-   function resolve() {
-     if (l.search) {
-       var q = {}
-       l.search.slice(1).split('&').forEach(function(v) {
-         var a = v.split('=')
-         q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&')
-       })
-       if (q.p !== undefined) {
-         window.history.replaceState(null, null,
-           repo + (q.p || '') +
-           (q.q ? ('?' + q.q) : '') +
-           l.hash
-         )
-       }
-     }
-   }
-
-  /* if current document is 404 page page, redirect to index.html otherwise resolve */
-  document.title === '404' ? redirect() : resolve()
-
-}(window.location, window.projectPages || true ))
+!function(a,e){var t=window.projectPages||true?"/"+a.pathname.split("/")[1]:""
+/* redirect all 404 trafic to index.html */;
+/* if current document is 404 page page, redirect to index.html otherwise resolve */
+"404"===document.title?a.replace(a.protocol+"//"+a.hostname+(a.port?":"+a.port:"")+t+"/?"+(a.pathname?"p="+a.pathname.replace(/&/g,"~and~").replace(t,""):"")+(a.search?"&q="+a.search.slice(1).replace(/&/g,"~and~"):"")+a.hash):
+/* resolve 404 redirects into internal routes */
+function(){if(a.search){var e={};a.search.slice(1).split("&").forEach(function(a){var t=a.split("=");e[t[0]]=t.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==e.p&&window.history.replaceState(null,null,t+(e.p||"")+(e.q?"?"+e.q:"")+a.hash)}}()}(window.location);
