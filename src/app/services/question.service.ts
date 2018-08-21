@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 export interface IQuestionsData {
@@ -34,16 +34,23 @@ export class QuestionService {
             return of(this.questions);
         }
 
-        return this.getQuestionsData().pipe(map((questionsData: IQuestionsData): IQuestion[] => {
-            if (questionsData && questionsData.results && questionsData.results.length) {
-                this.questions = questionsData.results;
-                return this.questions;
-            } else {
-                throw new Error('Questions API has no questions.');
-            }
-        }, (): void => {
-            throw new Error('Questions API is unavailable.');
-        }));
+        return this.getQuestionsData().pipe(
+            map((questionsData: IQuestionsData): IQuestion[] => {
+                if (questionsData && questionsData.results && questionsData.results.length) {
+                    this.questions = questionsData.results;
+
+                    return this.questions;
+                } else {
+                    throw new Error('Questions API has no questions.');
+                }
+            }),
+            catchError((error: Error): Observable<any> => {
+                if (error && error.message && error.message && error.name !== 'HttpErrorResponse') {
+                    return throwError(error.message);
+                }
+                return throwError('Questions API is unavailable.');
+            })
+        );
     }
 
     getQuestion(): Observable<IQuestion> {
