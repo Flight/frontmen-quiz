@@ -84,30 +84,18 @@ describe('QuestionService', (): void => {
         });
     }));
 
-    it('should get corrent question', inject([QuestionService], (service: QuestionService): void => {
-        service.getQuestion().subscribe((question: IQuestion): void => {
-            expect(question).toEqual(firstQuestion);
-        });
-        service.getQuestion().subscribe((question: IQuestion): void => {
-            expect(question).toEqual(secondQuestion);
-        });
-    }));
+    it('should trow error if API is unavailable', (done: DoneFn): void => {
+        inject([QuestionService], (service: QuestionService): void => {
+            jasmine.Ajax.stubRequest(dataUrl).andReturn({
+                status: 404
+            });
 
-    it('should trow error if API is unavailable', inject([QuestionService], (service: QuestionService): void => {
-        let error = null;
-
-        jasmine.Ajax.stubRequest(dataUrl).andReturn({
-            status: 404
-        });
-
-        try {
-            service.getQuestion().subscribe();
-        } catch (e) {
-            error = e;
-        }
-
-        setTimeout(() => {
-            expect(error).toBe('Questions API is unavailable.');
-        }, 0);
-    }));
+            service.getQuestion().subscribe({
+                error(errorMessage) {
+                    expect(errorMessage).toBe('Questions API is unavailable.');
+                    done();
+                }
+            });
+        })();
+    });
 });
